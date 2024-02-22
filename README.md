@@ -1,6 +1,6 @@
 # Tidytuesday
 
-![Description de l'image](tt_logo.png)
+![Description de l'image](./tt_logo.png)
 
 TidyTuesday est une initiative hebdomadaire de la communauté des utilisateurs du logiciel statistique R. Chaque semaine, un ensemble de données est publié sur le compte Twitter @tidyverse et sur le dépôt GitHub TidyTuesday. Les participants sont encouragés à explorer, analyser et visualiser ces données à l'aide du langage de programmation R et des principes de la "tidy data" (données bien organisées).
 
