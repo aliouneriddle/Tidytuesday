@@ -2,6 +2,10 @@
 
 ![Description de l'image](tt_logo.png)
 
-TidyTuesday est une initiative hebdomadaire de la communauté des utilisateurs du logiciel statistique R. Chaque semaine, un ensemble de données est publié sur le compte Twitter @tidyverse et sur le dépôt GitHub TidyTuesday. Les participants sont encouragés à explorer, analyser et visualiser ces données à l'aide du langage de programmation R et des principes de la "tidy data" (données bien organisées).
+TidyTuesday a été lancé par Thomas Mock en 2018. Il s'agit d'une initiative qui vise à encourager la communauté des utilisateurs du logiciel statistique R à pratiquer et à améliorer leurs compétences en analyse de données, en visualisation et en manipulation de données. Chaque semaine, un ensemble de données est publié sur le compte Twitter @tidyverse et sur le dépôt GitHub TidyTuesday.
 
-L'objectif de TidyTuesday est d'améliorer les compétences en analyse de données, en visualisation et en manipulation de données à l'aide de R, tout en encourageant la collaboration et le partage de connaissances au sein de la communauté. Les participants publient souvent leurs réalisations sur les réseaux sociaux en utilisant le hashtag #TidyTuesday, ce qui permet de voir une variété d'approches et de solutions pour traiter les mêmes données.
+L'objectif de TidyTuesday est de fournir aux utilisateurs de R une occasion régulière de travailler sur des ensembles de données variés, de partager leurs analyses et de collaborer avec d'autres membres de la communauté. En 2018, le projet a commencé à gagner en popularité, attirant un nombre croissant de participants et de contributions chaque semaine.
+
+Les participants sont encouragés à utiliser les principes de la "tidy data", à explorer les données de manière approfondie et à créer des visualisations informatives. L'utilisation de packages comme ggplot2 et dplyr est souvent encouragée pour ces tâches, car ils sont populaires dans l'écosystème R pour la manipulation et la visualisation des données.
+
+Chaque semaine, les participants partagent leurs réalisations sur les réseaux sociaux en utilisant le hashtag #TidyTuesday, ce qui permet de créer une communauté active et collaborative. L'initiative a continué à évoluer au fil des ans, rassemblant des personnes intéressées par l'apprentissage, la pratique et le partage dans le domaine de l'analyse de données avec R.
