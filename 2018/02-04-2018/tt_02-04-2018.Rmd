@@ -2,33 +2,92 @@
 title: "02-04-2018"
 author: "ABD"
 date: "2024-02-22"
-output: pdf_document
+output:
+  pdf_document: 
+    latex_engine: xelatex
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Présentater les données
+![TidyTuesday](../../tt_logo.png)
+
+```{r package_de_base, include=FALSE}
+library(tidyverse)
+```
+
+\newpage
+
+## Présenter les données
+
+Ceci est un [lien vers Google](http://www.google.com).
+
+Serie temporelle [\textcolor{blue}{lien vers la Section 2}](#section-2)
 
 
+<!-- ![Sujet](https://onlinembapage.com/average-tuition-and-educational-attainment-in-the-united-states/) -->
 
 ## Télécharger les données
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+**Restrictions de l'API GitHub et Recommandations**
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+L'API GitHub applique des limites de taux pour contrôler le nombre de requêtes qu'un utilisateur peut effectuer en un laps de temps donné. Ces limites sont essentielles pour prévenir les abus et garantir une utilisation équitable de la plateforme.
+Pour éviter les contraintes liées aux limites de l'API GitHub, il est vivement recommandé de télécharger le fichier nécessaire directement sur votre machine. Cela permet d'éviter une dépendance excessive à l'API pour les opérations de récupération de données, réduisant ainsi le risque de dépassement des limites de taux. Consultez la documentation officielle de l'API GitHub pour des détails précis sur les limites de taux et les bonnes pratiques d'utilisation.
+En suivant ces recommandations, vous optimiserez votre utilisation de l'API GitHub tout en respectant les limites de taux établies par la plateforme.
 
-```{r cars}
-summary(cars)
+```{r}
+# install.packages("tidytuesdayR") 
+# tuesdata <- tidytuesdayR::tt_load('2018-04-02')
+# tuesdata <- tidytuesdayR::tt_load(2024, week = 2)
+
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+# Lecture des données téléchargées
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, echo=FALSE}
+library(readxl)
+
+tuesdata <- read_excel("./us_avg_tuition.xlsx")
+  
+# Afficher la structure de la liste
+str(tuesdata)
+
+# Afficher les noms des jeux de données disponibles
+names(tuesdata)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+library(dplyr)
+# fscolarite <- tuesdata$us_avg_tuition
+fscolarite <- tuesdata
+
+glimpse(fscolarite)
+
+```
+
+## Série temporelle {#section-2}
+
+```{r}
+library(tidyr)
+# Analyse des tendances temporelles
+scolarite <- fscolarite %>%
+  pivot_longer(cols = starts_with("20"), names_to = "Year", values_to = "Scolarite")
+scolarite
+```
+
+\newpage
+
+# Graphiques
+*
+```{r}
+library(ggplot2)
+
+scolarite %>% 
+  group_by(State) %>%
+  summarise(n=n(),moy=mean(Scolarite))
+
+```
+
+
