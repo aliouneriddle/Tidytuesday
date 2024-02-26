@@ -1,6 +1,6 @@
 # Tidytuesday
 
-![Description de l'image](tt_logo.png)
+![Description de l'image](../tt_logo.png)
 
 TidyTuesday a été lancé par Thomas Mock en 2018. Il s'agit d'une initiative qui vise à encourager la communauté des utilisateurs du logiciel statistique R à pratiquer et à améliorer leurs compétences en analyse de données, en visualisation et en manipulation de données. Chaque semaine, un ensemble de données est publié sur le compte Twitter @tidyverse et sur le dépôt GitHub TidyTuesday.
 

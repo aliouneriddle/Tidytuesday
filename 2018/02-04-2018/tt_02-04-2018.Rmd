@@ -91,3 +91,27 @@ scolarite %>%
 ```
 
 
+
+```{r}
+
+# Installer ggplot2 si ce n'est pas déjà fait
+# install.packages("ggplot2")
+
+# Charger la bibliothèque ggplot2
+# library(ggplot2)
+
+# Créer un jeu de données exemple
+set.seed(123)
+data <- data.frame(value = rnorm(100))
+
+# Créer un histogramme avec ggplot2
+ggplot(data, aes(x = value)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
+  ggtitle("Histogramme de la variable 'value'") +
+  xlab("Valeurs") +
+  ylab("Fréquence")
+
+
+```
+
+
