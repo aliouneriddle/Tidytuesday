@@ -28,6 +28,10 @@ Serie temporelle [\textcolor{blue}{lien vers la Section 2}](#section-2)
 
 <!-- ![Sujet](https://onlinembapage.com/average-tuition-and-educational-attainment-in-the-united-states/) -->
 
+
+
+
+
 ## Télécharger les données
 
 **Restrictions de l'API GitHub et Recommandations**
@@ -42,6 +46,8 @@ En suivant ces recommandations, vous optimiserez votre utilisation de l'API GitH
 # tuesdata <- tidytuesdayR::tt_load(2024, week = 2)
 
 ```
+
+
 
 
 # Lecture des données téléchargées
@@ -67,6 +73,10 @@ glimpse(fscolarite)
 
 ```
 
+
+
+
+
 ## Série temporelle {#section-2}
 
 ```{r}
@@ -79,8 +89,8 @@ scolarite
 
 \newpage
 
-# Graphiques
-*
+## Moyennes 
+
 ```{r}
 library(ggplot2)
 
@@ -91,27 +101,120 @@ scolarite %>%
 ```
 
 
+```{r}
+scolarite %>% 
+  pivot_wider(names_from = Year, values_from = Scolarite)
+```
+
 
 ```{r}
+# install.packages("FactoMineR")
+# install.packages("Factoshiny")
+# if(!require(devtools)) install.packages("devtools")
+# devtools::install_github("kassambara/factoextra")
 
-# Installer ggplot2 si ce n'est pas déjà fait
-# install.packages("ggplot2")
-
-# Charger la bibliothèque ggplot2
-# library(ggplot2)
-
-# Créer un jeu de données exemple
-set.seed(123)
-data <- data.frame(value = rnorm(100))
-
-# Créer un histogramme avec ggplot2
-ggplot(data, aes(x = value)) +
-  geom_histogram(binwidth = 1, fill = "blue", color = "black", alpha = 0.7) +
-  ggtitle("Histogramme de la variable 'value'") +
-  xlab("Valeurs") +
-  ylab("Fréquence")
-
-
+library(FactoMineR)
+library(factoextra)
+library(Factoshiny)
 ```
+
+```{r}
+data(decathlon)
+decathlon
+```
+
+
+
+# ANALYSES POSSIBLES
+Bien sûr ! L'analyse des frais de scolarité des établissements scolaires par état aux États-Unis peut fournir des informations intéressantes. Voici quelques façons d'analyser ces données :
+
+1. **Analyse des tendances temporelles :**
+   - Examinez l'évolution des frais de scolarité au fil des années pour chaque état.
+   - Identifiez les États où les frais ont le plus augmenté ou diminué.
+
+2. **Comparaison entre les États :**
+   - Comparez les frais de scolarité moyens ou médians entre différents états.
+   - Identifiez les écarts significatifs entre les États.
+
+3. **Analyse des écarts entre les niveaux d'éducation :**
+   - Divisez les données en fonction des niveaux d'éducation (primaire, secondaire, supérieur).
+   - Analysez les différences de tendances et de montants entre ces niveaux.
+
+4. **Analyse démographique :**
+   - Explorez les variations des frais de scolarité en fonction de la population étudiante ou d'autres facteurs démographiques.
+   - Identifiez des corrélations potentielles entre les frais de scolarité et la démographie.
+
+5. **Identification des outliers :**
+   - Recherchez des établissements ou des États avec des frais de scolarité nettement plus élevés ou plus bas que la moyenne.
+   - Explorez les raisons possibles de ces variations.
+
+6. **Analyse de corrélation :**
+   - Étudiez la corrélation entre les frais de scolarité et d'autres indicateurs socio-économiques, tels que le revenu moyen par habitant ou le taux de chômage.
+
+7. **Segmentation par type d'établissement :**
+   - Divisez les données en fonction du type d'établissement (public, privé, université, collège).
+   - Comparez les tendances et les montants entre ces catégories.
+
+8. **Analyse régionale :**
+   - Regroupez les États par région géographique et examinez les variations régionales des frais de scolarité.
+
+9. **Visualisation des données :**
+   - Utilisez des graphiques, des cartes ou d'autres outils de visualisation pour rendre les tendances et les comparaisons plus faciles à comprendre.
+
+10. **Analyse de l'accessibilité à l'éducation :**
+    - Étudiez comment les frais de scolarité influencent l'accessibilité à l'éducation dans différents États.
+
+N'oubliez pas de prendre en compte les spécificités de vos données et de considérer d'autres facteurs contextuels qui pourraient influencer les résultats de l'analyse.
+
+
+
+# TECHNIQUES D'ANALYSE
+Il existe différentes techniques d'analyse de données que vous pouvez utiliser pour explorer et comprendre les tendances dans vos données sur les frais de scolarité des établissements scolaires par état aux États-Unis. Voici quelques-unes des techniques que vous pourriez envisager :
+
+1. **Statistiques descriptives :**
+   - Calculez des mesures statistiques telles que la moyenne, la médiane, l'écart-type et les quartiles pour résumer la distribution des frais de scolarité.
+
+2. **Visualisation des données :**
+   - Utilisez des graphiques tels que des histogrammes, des boîtes à moustaches (box plots), des diagrammes en barres et des cartes pour représenter visuellement les données.
+   - Les séries chronologiques peuvent être visualisées à l'aide de graphiques temporels.
+
+3. **Analyse comparative :**
+   - Utilisez des comparaisons de moyennes ou de médianes pour identifier les variations entre les États ou les années.
+   - Créez des graphiques de comparaison pour mettre en évidence les différences.
+
+4. **Régression :**
+   - Si vous avez des données sur d'autres variables (par exemple, le revenu par habitant, le taux de chômage), vous pouvez utiliser des analyses de régression pour comprendre les relations potentielles.
+
+5. **Analyse de corrélation :**
+   - Identifiez les corrélations entre les frais de scolarité et d'autres variables pertinentes.
+
+6. **Tests statistiques :**
+   - Effectuez des tests statistiques (comme le test t de Student ou l'analyse de variance) pour déterminer si les différences entre les groupes sont statistiquement significatives.
+
+7. **Analyse de clusters :**
+   - Regroupez les États ou les établissements similaires en fonction des caractéristiques des frais de scolarité à l'aide de techniques de clustering.
+
+8. **Analyse de séries chronologiques :**
+   - Explorez les tendances temporelles à l'aide de méthodes d'analyse de séries chronologiques pour identifier les modèles et les cycles.
+
+9. **Segmentation :**
+   - Divisez vos données en segments basés sur des critères spécifiques (par exemple, type d'établissement, niveau d'éducation) pour une analyse plus détaillée.
+
+10. **Analyse factorielle :**
+    - Si vous avez plusieurs variables liées aux frais de scolarité, une analyse factorielle pourrait vous aider à identifier des facteurs sous-jacents.
+
+11. **Cartographie géographique :**
+    - Utilisez des cartes pour visualiser les variations spatiales des frais de scolarité par état.
+
+12. **Analyse de sensibilité :**
+    - Effectuez des analyses de sensibilité pour évaluer comment les résultats changent en fonction de différentes hypothèses ou paramètres.
+
+Choisissez les techniques en fonction de vos objectifs spécifiques et de la nature de vos données. Il peut également être bénéfique de combiner plusieurs approches pour obtenir une compréhension plus complète.
+
+
+
+
+
+
 
 
