@@ -19,12 +19,24 @@ library(tidyverse)
 
 \newpage
 
-## Présenter les données
+# PRESENTATION DES DONNEES
 
 Ceci est un [lien vers Google](http://www.google.com).
 
 Serie temporelle [\textcolor{blue}{lien vers la Section 2}](#section-2)
 
+Dans cette partie, il s’agit de pr´esenter les diff´erents
+aspects de votre travail sur le th`eme choisi.
+\begin{description}
+\item [Recherche documentaire :] quels documents avez-vous
+trouv´e/d´ecouvert au SCUIO-IP (num´eriques, articles de
+presse, dossier...) ou lors de recherches personnelles ?
+Que vous manque-t-il ?
+\item [Interview :] quelles d´emarches avez-vous accomplies
+pour le r´ealiser (recherche des contacts, prise de
+rendez-vous, d´eroulement de l’interview) ?
+...
+\end{description}
 
 <!-- ![Sujet](https://onlinembapage.com/average-tuition-and-educational-attainment-in-the-united-states/) -->
 
@@ -40,7 +52,7 @@ L'API GitHub applique des limites de taux pour contrôler le nombre de requêtes
 Pour éviter les contraintes liées aux limites de l'API GitHub, il est vivement recommandé de télécharger le fichier nécessaire directement sur votre machine. Cela permet d'éviter une dépendance excessive à l'API pour les opérations de récupération de données, réduisant ainsi le risque de dépassement des limites de taux. Consultez la documentation officielle de l'API GitHub pour des détails précis sur les limites de taux et les bonnes pratiques d'utilisation.
 En suivant ces recommandations, vous optimiserez votre utilisation de l'API GitHub tout en respectant les limites de taux établies par la plateforme.
 
-```{r}
+```{r usage_tidytuesdayR, echo=FALSE}
 # install.packages("tidytuesdayR") 
 # tuesdata <- tidytuesdayR::tt_load('2018-04-02')
 # tuesdata <- tidytuesdayR::tt_load(2024, week = 2)
@@ -50,9 +62,9 @@ En suivant ces recommandations, vous optimiserez votre utilisation de l'API GitH
 
 
 
-# Lecture des données téléchargées
+## Lecture des données téléchargées
 
-```{r, echo=FALSE}
+```{r lecture_donnees, echo=FALSE}
 library(readxl)
 
 tuesdata <- read_excel("./us_avg_tuition.xlsx")
@@ -64,7 +76,7 @@ str(tuesdata)
 names(tuesdata)
 ```
 
-```{r}
+```{r regard_donnees}
 library(dplyr)
 # fscolarite <- tuesdata$us_avg_tuition
 fscolarite <- tuesdata
@@ -81,6 +93,7 @@ glimpse(fscolarite)
 
 ```{r}
 library(tidyr)
+library(kableExtra)
 # Analyse des tendances temporelles
 scolarite <- fscolarite %>%
   pivot_longer(cols = starts_with("20"), names_to = "Year", values_to = "Scolarite")
@@ -96,7 +109,8 @@ library(ggplot2)
 
 scolarite %>% 
   group_by(State) %>%
-  summarise(n=n(),moy=mean(Scolarite))
+  summarise(n=n(),moy=mean(Scolarite)) %>% 
+  kableExtra::kbl()
 
 ```
 
@@ -118,7 +132,7 @@ library(factoextra)
 library(Factoshiny)
 ```
 
-```{r}
+```{r, echo=FALSE}
 data(decathlon)
 decathlon
 ```
@@ -211,10 +225,183 @@ Il existe différentes techniques d'analyse de données que vous pouvez utiliser
 
 Choisissez les techniques en fonction de vos objectifs spécifiques et de la nature de vos données. Il peut également être bénéfique de combiner plusieurs approches pour obtenir une compréhension plus complète.
 
+## Histogramme
+
+```{r}
+scolarite %>% filter(State=="Alabama")
+
+# Nombre de groupe 
+ngrpe = 5
+
+scolarite %>%
+  # filter(State == "Alabama") %>%
+  ggplot(aes(x=Scolarite)) +
+  geom_histogram(bins = ngrpe, color = "black", alpha = 0.7) +
+  labs(title = "Histogramme de la Scolarité", x = "Scolarité", y = "Fréquence")+
+  # geom_text(stat = "count", aes(label = after_stat(count), group = 1), vjust = -0.5) + 
+  theme_minimal() -> plot_object 
+
+plot_object
+
+```
+
+### Histogramme : Tableau des données
+
+```{r}
+# Obtenez les données de l'histogramme
+hist_data <- ggplot_build(plot_object)$data[[1]]
+hist_data
+
+# Trouver l'indice de la classe modale
+indice_modale <- which.max(hist_data$count)
+```
+
+
+
+```{r}
+# Définir la taille des intervalles (bins est le nombre de groupe)
+ninterv = 7500
+
+scolarite %>%
+  # filter(State == "Alabama") %>%
+  ggplot(aes(x = Scolarite)) +
+  geom_histogram(binwidth = ninterv, fill = c("blue", "green", "red"), color = "black", alpha = 0.7) +
+  # geom_text(stat = "count", aes(label = after_stat(count)), vjust = -0.5) +  # Utilisation de after_stat(count)
+  labs(title = "Histogramme de la Scolarité", x = "Scolarité", y = "Fréquence") + theme_minimal()
+```
+
+
+
+### Classe modale 
+
+```{r}
+hist_data <- hist(scolarite$Scolarite, plot = FALSE)
+
+# Trouver l'indice de la classe modale
+indice_modale <- which.max(hist_data$counts)
+
+# Récupérer la fréquence de la classe modale
+frequence_modale <- hist_data$counts[indice_modale]
+
+cat("La fréquence de la classe modale est :", frequence_modale)
+```
 
 
 
 
+## Boxplot
+
+```{r}
+scolarite %>% 
+  ggplot(aes(y = Scolarite)) + 
+  geom_boxplot(aes(x = State)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  annotate(
+    "text", 
+    label = "Je peux faire un commentaire encore\nJe peux même aller à la ligne",
+    x = I(8), y = I(0.9),
+    # xmax = I(10),
+    size = 2
+  )
+
+```
+Ici, nous vous faire une autre distinction entre les états du Nord et ceux du Sud, 
+Entre les états villes et les états Campagne
+Nous pouvons ajouter d'autres facteurs comme le taux de criminalité, le taux de noir, etc
 
 
+
+```{r boxplot_scolarite}
+scolarite %>% 
+  ggplot(aes(y = Scolarite,x = State)) + 
+  geom_boxplot(outliers = TRUE, staplewidth = 0.5) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+##  trier en fonction de la médiane pour avoir des groupes
+Nous pouvonss pouvez trier les niveaux de la variable State en fonction de la médiane de la variable Scolarite. Pour ce faire, vous pouvez utiliser la fonction reorder dans la fonction aes de ggplot2. Voici comment vous pourriez le faire :
+```{r}
+library(ggplot2)
+
+scolarite %>%
+  ggplot(aes(y = Scolarite, x = reorder(State, Scolarite, FUN = median))) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+
+## ajouter pour chaque état dans le même graphique les moyennes de chaque groupe
+
+Oui, vous pouvez ajouter les moyennes de chaque groupe pour chaque état dans le même graphique. Vous pouvez utiliser la fonction geom_point pour représenter les moyennes. Voici comment vous pouvez le faire :
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+scolarite %>%
+  group_by(State) %>%
+  mutate(max_value = max(Scolarite),
+         min_value = min(Scolarite),
+         mean_value = mean(Scolarite)) %>%
+  ungroup() %>%
+  arrange(desc(max_value - min_value)) %>%
+  ggplot(aes(y = Scolarite, x = reorder(State, max_value - min_value))) +
+  geom_boxplot() +
+  geom_point(aes(y = mean_value), color = "red", size = 3, position = position_dodge(width = 0.75)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+
+```
+
+Si vous souhaitez trier les niveaux de la variable State en fonction des moyennes de la variable Scolarite pour chaque état, vous pouvez le faire de la manière suivante :
+
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+scolarite %>%
+  group_by(State) %>%
+  mutate(max_value = max(Scolarite),
+         min_value = min(Scolarite),
+         mean_value = mean(Scolarite)) %>%
+  ungroup() %>%
+  arrange(desc(mean_value)) %>%
+  ggplot(aes(y = Scolarite, x = reorder(State, mean_value))) +
+  geom_boxplot() +
+  geom_point(aes(y = mean_value), color = "red", size = 3, position = position_dodge(width = 0.75)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+Dans ce code, j'ai utilisé arrange(desc(mean_value)) pour trier les données en fonction des moyennes (mean_value) de manière décroissante. Ensuite, j'ai utilisé reorder(State, mean_value) dans ggplot pour trier les niveaux de la variable State en fonction de ces moyennes triées.
+
+
+
+```{r}
+library(ggplot2)
+
+ggplot(mpg, aes(displ, hwy, shape = factor(cyl), colour = cty)) +
+  geom_point() +
+  # Styling individual guides
+  guides(
+    shape  = guide_legend(theme = theme(legend.text = element_text(colour = "red"))),
+    colour = guide_colorbar(theme = theme(legend.frame = element_rect(colour = "red")))
+  ) +
+  # Styling guides globally
+  theme(
+    legend.title.position = "left",
+    # Title justification is controlled by hjust/vjust in the element
+    legend.title = element_text(angle = 90, hjust = 0.5)
+  ) +
+  annotate(
+    "text", 
+    label = "Text in the middle",
+    x = I(0.5), y = I(0.9),
+    size = 6
+  )
+
+```
 
