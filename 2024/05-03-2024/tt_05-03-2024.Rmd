@@ -106,3 +106,32 @@ Le polystyrène peut se présenter sous deux formes principales :
 
 Bien que le polystyrène soit couramment utilisé en raison de ses propriétés d'isolation et de légèreté, il peut poser des problèmes environnementaux car il est difficilement biodégradable. Il est important de recycler correctement les produits en polystyrène pour réduire leur impact sur l'environnement.
 
+
+\newpage
+# ACQUISITION DES DONNEES
+
+## Téléchargement directement
+```{r telechargement_direct, echo=FALSE}
+# # Option 1: tidytuesdayR package 
+# ## install.packages("tidytuesdayR")
+# 
+# tuesdata <- tidytuesdayR::tt_load('2024-03-05')
+# ## OR
+# tuesdata <- tidytuesdayR::tt_load(2024, week = 10)
+# 
+# trashwheel <- tuesdata$trashwheel
+# 
+# 
+# # Option 2: Read directly from GitHub
+# 
+# trashwheel <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-03-05/trashwheel.csv')
+
+```
+
+## Téléchargement en local
+
+```{r}
+trashwheel <- readr::read_csv('trashwheel.csv')
+# trashwheel
+```
+
