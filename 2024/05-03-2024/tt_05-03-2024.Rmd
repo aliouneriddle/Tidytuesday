@@ -1,0 +1,188 @@
+---
+title: "05-03-2024"
+author: "ABD"
+date: "2024-03-05"
+output:
+  pdf_document: 
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![TidyTuesday](../../tt_logo.png)
+\begin{center}
+  \includegraphics[width=0.3\linewidth]{pic1.png}
+\end{center}
+
+
+
+```{r package_de_base, include=FALSE}
+library(tidyverse)
+```
+
+
+
+\newpage
+
+# PRESENTATION DES DONNEES
+
+*Trash Wheel* fait référence à une technologie de collecte des déchets flottants dans les cours d'eau, en particulier les rivières et les ports. Les *Trash Wheels* sont des dispositifs mécaniques composés de roues munies de pelles ou de godets, alimentées par l'énergie hydraulique générée par le courant de l'eau.
+
+Le plus célèbre *Trash Wheel* est probablement M. *Trash Wheel*, qui est situé dans le port intérieur de Baltimore, aux États-Unis. M. *Trash Wheel* a été conçu pour intercepter les débris flottants tels que les déchets plastiques, les bouteilles, les branches et d'autres déchets qui pourraient polluer les cours d'eau.
+
+Ces dispositifs sont souvent salués pour leur efficacité dans la réduction de la pollution des cours d'eau, contribuant ainsi à préserver l'écosystème aquatique. Ils sont souvent complétés par d'autres initiatives de sensibilisation à la pollution et de gestion des déchets afin de promouvoir une meilleure conservation de l'environnement.
+
+\newpage
+# ACQUISITION DES DONNEES
+
+## Téléchargement directement
+```{r telechargement_direct, echo=FALSE}
+# # Option 1: tidytuesdayR package 
+# ## install.packages("tidytuesdayR")
+# 
+# tuesdata <- tidytuesdayR::tt_load('2024-03-05')
+# ## OR
+# tuesdata <- tidytuesdayR::tt_load(2024, week = 10)
+# 
+# trashwheel <- tuesdata$trashwheel
+# 
+# 
+# # Option 2: Read directly from GitHub
+# 
+# trashwheel <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-03-05/trashwheel.csv')
+
+```
+
+## Téléchargement en local
+
+```{r}
+trashwheel <- readr::read_csv('trashwheel.csv')
+# trashwheel
+```
+
+
+## Chargement des packages
+```{r, message=FALSE}
+library(tidyverse)
+
+```
+
+
+\newpage
+## Dictionnaire de données
+Je veux ici récupérer le dictionnaire de données et je veux utiliser le même algorithme pour les analyses futures : 
+
+```{r dict_donnees, echo=FALSE}
+# Ce script est à lancer une seule fois en raison des limitations
+# library(rvest)
+# 
+# # Définir l'URL de la page GitHub
+# url <- "https://github.com/rfordatascience/tidytuesday/tree/master/data/2024/2024-03-05"
+# 
+# # Lire le contenu HTML de la page
+# html_content <- read_html(url)
+# 
+# # Extraire le tableau
+# table_data <- html_content %>%
+#   html_table(fill = TRUE)
+# 
+# # Afficher le tableau
+# table_data[[1]]
+```
+
+
+En plus clair : 
+```{r}
+data <- tibble(
+  ID = c("Identifiant", "Nom", "Numéro de benne", "Mois", "Année", "Date", "Poids", "Volume",
+         "Bouteilles en plastique", "Polystyrène", "Mégots de cigarette", "Bouteilles en verre",
+         "Sacs en plastique", "Emballages", "Balles de sport", "Foyers alimentés"),
+  Type = c("character", "character", "double", "character", "double", "character",
+           "double", "double", "double", "double", "double", "double",
+           "double", "double", "double", "double"),
+  Description = c(
+    "Nom court du Trash Wheel",
+    "Nom du Trash Wheel",
+    "Numéro de la benne",
+    "Mois",
+    "Année",
+    "Date",
+    "Poids en tonnes",
+    "Volume en mètres cubes",
+    "Nombre de bouteilles en plastique",
+    "Nombre d'articles en polystyrène",
+    "Nombre de mégots de cigarette",
+    "Nombre de bouteilles en verre",
+    "Nombre de sacs en plastique",
+    "Nombre d'emballages",
+    "Nombre de balles de sport",
+    "Foyers alimentés - Chaque tonne de déchets équivaut en moyenne à 500 kilowatts d'électricité. Un ménage moyen utilise 30 kilowatts par jour."
+  )
+)
+
+# Afficher le dataframe
+print(data)
+
+```
+
+## le polystyrène
+\begin{center}
+  \includegraphics[width=0.5\linewidth]{polystyrene.jpg}
+\end{center}
+
+Le polystyrène est un polymère synthétique largement utilisé dans la fabrication de produits en plastique. Il appartient à la famille des polymères aromatiques, et sa structure chimique de base est dérivée du styrène.
+
+Le polystyrène peut se présenter sous deux formes principales :
+
+1. **Polystyrène expansé (EPS) :** Il est souvent utilisé pour la fabrication de mousses légères, comme les emballages de protection, les gobelets isolants, et les plateaux d'œufs. Cette forme de polystyrène est célèbre sous le nom de « polystyrène expansé » ou « styromousse ».
+
+2. **Polystyrène extrudé (XPS) :** Il est plus dense que l'EPS et est utilisé dans des applications nécessitant une isolation thermique plus élevée, comme les panneaux isolants pour les murs et les toits.
+
+Bien que le polystyrène soit couramment utilisé en raison de ses propriétés d'isolation et de légèreté, il peut poser des problèmes environnementaux car il est difficilement biodégradable. Il est important de recycler correctement les produits en polystyrène pour réduire leur impact sur l'environnement.
+
+
+
+
+
+
+\newpage
+## Analyse possible 
+Les données recueillies auprès du Trash Wheel offrent une variété d'opportunités pour mener différentes analyses. Voici quelques idées d'analyses que vous pourriez envisager :
+
+1. **Tendances temporelles :** Analysez comment le poids, le volume et les différents types de déchets (plastique, polystyrène, mégots de cigarette, etc.) varient au fil du temps (mois, année). Cela pourrait aider à identifier des tendances saisonnières ou des changements au fil des ans.
+
+2. **Répartition des types de déchets :** Examinez la distribution des différents types de déchets collectés par le Trash Wheel. Cela peut révéler les principaux contributeurs à la pollution fluviale et orienter les initiatives de sensibilisation et de gestion des déchets.
+
+3. **Corrélations entre variables :** Identifiez les éventuelles corrélations entre le poids total des déchets, le volume, et les différentes catégories de déchets. Par exemple, examinez s'il y a une corrélation entre le nombre de bouteilles en plastique et le poids total des déchets.
+
+4. **Évolution de la composition des déchets :** Analysez comment la proportion des différents types de déchets évolue au fil du temps. Cela pourrait indiquer des changements dans les habitudes de consommation et l'efficacité des initiatives de réduction des déchets.
+
+5. **Impact environnemental :** Évaluez l'impact environnemental en convertissant le poids total des déchets collectés en kilowatts d'électricité, comme mentionné dans la colonne "Foyers alimentés". Examinez comment cet impact varie au fil du temps.
+
+6. **Comparaisons entre différents Trash Wheels :** Si vous avez des données de plusieurs Trash Wheels, comparez leurs performances en termes de collecte de déchets. Identifiez les facteurs qui pourraient influencer les différences dans les résultats.
+
+7. **Analyse de la fréquence des événements :** Examinez la fréquence des événements de collecte de déchets exceptionnels, tels que de fortes tempêtes, et évaluez comment ces événements influencent la quantité et le type de déchets collectés.
+
+Ces analyses peuvent fournir des informations précieuses pour orienter les efforts de conservation, améliorer la gestion des déchets et sensibiliser le public à l'importance de la préservation des cours d'eau.
+
+
+
+
+
+\newpage
+## Exploration des données
+
+```{r}
+trashwheel %>% 
+  group_by(ID) %>% 
+  count() %>% 
+  ungroup() %>% 
+  arrange(n %>% desc) %>% 
+  add_row(ID="TOTAL", n=sum(.$n))
+```
+
+
+
+
