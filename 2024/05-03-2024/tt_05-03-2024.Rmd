@@ -34,43 +34,7 @@ Le plus célèbre *Trash Wheel* est probablement M. *Trash Wheel*, qui est situ�
 
 Ces dispositifs sont souvent salués pour leur efficacité dans la réduction de la pollution des cours d'eau, contribuant ainsi à préserver l'écosystème aquatique. Ils sont souvent complétés par d'autres initiatives de sensibilisation à la pollution et de gestion des déchets afin de promouvoir une meilleure conservation de l'environnement.
 
-\newpage
-# ACQUISITION DES DONNEES
 
-## Téléchargement directement
-```{r telechargement_direct, echo=FALSE}
-# # Option 1: tidytuesdayR package 
-# ## install.packages("tidytuesdayR")
-# 
-# tuesdata <- tidytuesdayR::tt_load('2024-03-05')
-# ## OR
-# tuesdata <- tidytuesdayR::tt_load(2024, week = 10)
-# 
-# trashwheel <- tuesdata$trashwheel
-# 
-# 
-# # Option 2: Read directly from GitHub
-# 
-# trashwheel <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-03-05/trashwheel.csv')
-
-```
-
-## Téléchargement en local
-
-```{r}
-trashwheel <- readr::read_csv('trashwheel.csv')
-# trashwheel
-```
-
-
-## Chargement des packages
-```{r, message=FALSE}
-library(tidyverse)
-
-```
-
-
-\newpage
 ## Dictionnaire de données
 Je veux ici récupérer le dictionnaire de données et je veux utiliser le même algorithme pour les analyses futures : 
 
@@ -141,48 +105,4 @@ Le polystyrène peut se présenter sous deux formes principales :
 2. **Polystyrène extrudé (XPS) :** Il est plus dense que l'EPS et est utilisé dans des applications nécessitant une isolation thermique plus élevée, comme les panneaux isolants pour les murs et les toits.
 
 Bien que le polystyrène soit couramment utilisé en raison de ses propriétés d'isolation et de légèreté, il peut poser des problèmes environnementaux car il est difficilement biodégradable. Il est important de recycler correctement les produits en polystyrène pour réduire leur impact sur l'environnement.
-
-
-
-
-
-
-\newpage
-## Analyse possible 
-Les données recueillies auprès du Trash Wheel offrent une variété d'opportunités pour mener différentes analyses. Voici quelques idées d'analyses que vous pourriez envisager :
-
-1. **Tendances temporelles :** Analysez comment le poids, le volume et les différents types de déchets (plastique, polystyrène, mégots de cigarette, etc.) varient au fil du temps (mois, année). Cela pourrait aider à identifier des tendances saisonnières ou des changements au fil des ans.
-
-2. **Répartition des types de déchets :** Examinez la distribution des différents types de déchets collectés par le Trash Wheel. Cela peut révéler les principaux contributeurs à la pollution fluviale et orienter les initiatives de sensibilisation et de gestion des déchets.
-
-3. **Corrélations entre variables :** Identifiez les éventuelles corrélations entre le poids total des déchets, le volume, et les différentes catégories de déchets. Par exemple, examinez s'il y a une corrélation entre le nombre de bouteilles en plastique et le poids total des déchets.
-
-4. **Évolution de la composition des déchets :** Analysez comment la proportion des différents types de déchets évolue au fil du temps. Cela pourrait indiquer des changements dans les habitudes de consommation et l'efficacité des initiatives de réduction des déchets.
-
-5. **Impact environnemental :** Évaluez l'impact environnemental en convertissant le poids total des déchets collectés en kilowatts d'électricité, comme mentionné dans la colonne "Foyers alimentés". Examinez comment cet impact varie au fil du temps.
-
-6. **Comparaisons entre différents Trash Wheels :** Si vous avez des données de plusieurs Trash Wheels, comparez leurs performances en termes de collecte de déchets. Identifiez les facteurs qui pourraient influencer les différences dans les résultats.
-
-7. **Analyse de la fréquence des événements :** Examinez la fréquence des événements de collecte de déchets exceptionnels, tels que de fortes tempêtes, et évaluez comment ces événements influencent la quantité et le type de déchets collectés.
-
-Ces analyses peuvent fournir des informations précieuses pour orienter les efforts de conservation, améliorer la gestion des déchets et sensibiliser le public à l'importance de la préservation des cours d'eau.
-
-
-
-
-
-\newpage
-## Exploration des données
-
-```{r}
-trashwheel %>% 
-  group_by(ID) %>% 
-  count() %>% 
-  ungroup() %>% 
-  arrange(n %>% desc) %>% 
-  add_row(ID="TOTAL", n=sum(.$n))
-```
-
-
-
 
